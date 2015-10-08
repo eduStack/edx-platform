@@ -147,6 +147,10 @@ class SettingsPage(CoursePage):
         the appropriate radio button.
         """
         self.q(xpath="//label[contains(text(), '{pacing}')]".format(pacing=pacing)).click()
+        EmptyPromise(
+            lambda: self.course_pacing == pacing,
+            "Course pacing is set to {pacing}".format(pacing=pacing)
+        ).fulfill()
 
     ################
     # Waits
