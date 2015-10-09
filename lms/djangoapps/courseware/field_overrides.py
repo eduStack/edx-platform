@@ -97,7 +97,10 @@ class OverrideFieldData(FieldData):
             course: The course XBlock
         """
         request_cache = RequestCache.get_request_cache()
-        cache_key = ENABLED_OVERRIDE_PROVIDERS_KEY.format(course_id=unicode(course.id))
+        if course is None:
+            cache_key = ENABLED_OVERRIDE_PROVIDERS_KEY.format(course_id='None')
+        else:
+            cache_key = ENABLED_OVERRIDE_PROVIDERS_KEY.format(course_id=unicode(course.id))
         enabled_providers = request_cache.data.get(cache_key, NOTSET)
         if enabled_providers == NOTSET:
             enabled_providers = tuple(
