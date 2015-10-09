@@ -9,7 +9,6 @@ from django.test.utils import override_settings
 from student.tests.factories import UserFactory
 from lms.djangoapps.ccx.tests.test_overrides import inject_field_overrides
 from lms.djangoapps.courseware.field_overrides import OverrideFieldData
-from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 
@@ -33,6 +32,11 @@ class SelfPacedDateOverrideTest(ModuleStoreTestCase):
         OverrideFieldData.provider_classes = None
 
     def setup_course(self, display_name, self_paced):
+        """Set up a course with `display_name` and `self_paced` attributes.
+
+        Creates a child block with a due date, and ensures that field
+        overrides are correctly applied for both blocks.
+        """
         course = CourseFactory.create(display_name=display_name, self_paced=self_paced)
         section = ItemFactory.create(parent=course, due=self.due_date)
         inject_field_overrides((course, section), course, UserFactory.create())
