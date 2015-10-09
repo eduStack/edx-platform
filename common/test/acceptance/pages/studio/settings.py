@@ -151,10 +151,6 @@ class SettingsPage(CoursePage):
         """
         self.wait_for_element_presence(self.pacing_css, 'course pacing controls present')
         self.q(xpath="//label[contains(text(), '{pacing}')]".format(pacing=pacing)).click()
-        EmptyPromise(
-            lambda: self.course_pacing == pacing,
-            "Course pacing is set to {pacing}".format(pacing=pacing)
-        ).fulfill()
 
     ################
     # Waits
